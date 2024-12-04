@@ -59,8 +59,6 @@ def get_next_question(current_question_id):
         question_data = PYTHON_QUESTION_LIST[next_question_id]
         question_text = question_data["question_text"]
         options = question_data["options"]
-
-        # Format the question with options
         formatted_question = f"{question_text}<br /><br />Options:<br />" + "<br />".join(
             [f"-> {option}" for idx, option in enumerate(options)]
         )
@@ -76,11 +74,7 @@ def generate_final_response(session):
     answers = session.get("answers", {})
     total_questions = len(PYTHON_QUESTION_LIST)
     correct_answers = sum(1 for ans in answers.values() if ans["is_correct"])
-
-    # Calculate the percentage score
     percentage_score = (correct_answers / total_questions) * 100
-
-    # Determine remarks based on the score
     if percentage_score == 100:
         remarks = "Excellent! Perfect score!"
     elif percentage_score >= 80:
@@ -89,5 +83,4 @@ def generate_final_response(session):
         remarks = "Good effort! Keep practicing to improve."
     else:
         remarks = "Don't worry, you can try again and do better next time."
-
     return f"You scored {percentage_score:.2f}%.<br />Remarks: {remarks}"
